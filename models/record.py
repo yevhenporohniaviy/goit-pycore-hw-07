@@ -1,9 +1,17 @@
 from models.name_phone import Name, Phone
+from models.birthday import Birthday
 
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
+        self.birthday = None
+
+    def add_birthday(self, birthday):
+        if self.birthday is None:
+            self.birthday = Birthday(birthday)
+        else:
+            raise ValueError("Birthday is already set")
 
     def add_phone(self, phone):
         phone_obj = Phone(phone)
@@ -28,4 +36,5 @@ class Record:
         return None
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
+        birthday_str = f", birthday: {self.birthday.value}" if self.birthday else ""
+        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}{birthday_str}"
